@@ -15,6 +15,24 @@ public class InfoItem {
     private Map<String, Map<String, String>> attributes;
     private String filename;
     private Date processingDate;
+    private int noOfBoughtUnits;
+    private int noOfUnitAvailable;
+
+    public int getNoOfUnitAvailable() {
+        return noOfUnitAvailable;
+    }
+
+    public void setNoOfUnitAvailable(int noOfUnitAvailable) {
+        this.noOfUnitAvailable = noOfUnitAvailable;
+    }
+
+    public int getNoOfBoughtUnits() {
+        return noOfBoughtUnits;
+    }
+
+    public void setNoOfBoughtUnits(int noOfBoughtUnits) {
+        this.noOfBoughtUnits = noOfBoughtUnits;
+    }
 
     public Date getProcessingDate() {
         return processingDate;

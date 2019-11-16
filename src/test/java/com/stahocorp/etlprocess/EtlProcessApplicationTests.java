@@ -60,7 +60,7 @@ class EtlProcessApplicationTests {
     }
 
     @Test
-    void testFileNameParser() throws ParseException {
+    void testFileNameParser_info() throws ParseException {
         String fileName = "morele-1766330-20191114-info.html";
 
         FileItem fileItem = FilenameParser.parseFilename(fileName);
@@ -72,6 +72,20 @@ class EtlProcessApplicationTests {
 
         assertEquals(fromFile.parse("20191114"), fileItem.getDateFetched());
         assertEquals(FileType.INFO, fileItem.getFileType());
+    }
+
+    @Test
+    void testFileNameParser_opinions() throws ParseException {
+        String fileName = "morele-1766330-20191114-opinions.html";
+
+        FileItem fileItem = FilenameParser.parseFilename(fileName);
+
+        SimpleDateFormat fromFile = new SimpleDateFormat("yyyyMMdd");
+
+        assertEquals(fromFile.parse("20191114"), fileItem.getDateFetched());
+        assertEquals("morele", fileItem.getSupplierName());
+        assertEquals(1766330, fileItem.getItemId());
+        assertEquals(FileType.OPINIONS, fileItem.getFileType());
     }
 
 }

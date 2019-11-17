@@ -1,11 +1,11 @@
 package com.stahocorp.etlprocess.items;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class InfoItem {
     private long id;
-    private Date fetchDate;
+    private LocalDateTime fetchDate;
     private String name;
     private String manufacturer;
     private double price;
@@ -14,7 +14,7 @@ public class InfoItem {
     private String url;
     private Map<String, Map<String, String>> attributes;
     private String filename;
-    private Date processingDate;
+    private LocalDateTime processingDate;
     private int noOfBoughtUnits;
     private int noOfUnitAvailable;
 
@@ -34,11 +34,11 @@ public class InfoItem {
         this.noOfBoughtUnits = noOfBoughtUnits;
     }
 
-    public Date getProcessingDate() {
+    public LocalDateTime getProcessingDate() {
         return processingDate;
     }
 
-    public void setProcessingDate(Date processingDate) {
+    public void setProcessingDate(LocalDateTime processingDate) {
         this.processingDate = processingDate;
     }
 
@@ -66,11 +66,11 @@ public class InfoItem {
         this.discount = discount;
     }
 
-    public Date getFetchDate() {
+    public LocalDateTime getFetchDate() {
         return fetchDate;
     }
 
-    public void setFetchDate(Date fetchDate) {
+    public void setFetchDate(LocalDateTime fetchDate) {
         this.fetchDate = fetchDate;
     }
 

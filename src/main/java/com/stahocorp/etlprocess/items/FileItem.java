@@ -2,11 +2,11 @@ package com.stahocorp.etlprocess.items;
 
 import com.stahocorp.etlprocess.enums.FileType;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class FileItem {
     private String fileName;
-    private Date dateFetched;
+    private LocalDateTime dateFetched;
     private FileType fileType;
     private Long itemId;
     private String supplierName;
@@ -19,11 +19,11 @@ public class FileItem {
         this.fileName = fileName;
     }
 
-    public Date getDateFetched() {
+    public LocalDateTime getDateFetched() {
         return dateFetched;
     }
 
-    public void setDateFetched(Date dateFetched) {
+    public void setDateFetched(LocalDateTime dateFetched) {
         this.dateFetched = dateFetched;
     }
 

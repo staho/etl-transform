@@ -35,6 +35,7 @@ class EtlProcessApplicationTests {
             InfoItem ii = ifp.parseHtmlToItem();
 
             assertEquals(6130061, ii.getId(), "Must be 6130061");
+            assertEquals(7, ii.getAttributes().size(), "There was 7 attributes sections on this page");
 
         } catch (IOException e) {
             e.printStackTrace();

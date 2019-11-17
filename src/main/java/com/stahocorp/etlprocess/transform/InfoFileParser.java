@@ -3,13 +3,14 @@ package com.stahocorp.etlprocess.transform;
 import com.stahocorp.etlprocess.items.InfoItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class InfoFileParser {
 
@@ -32,11 +33,11 @@ public class InfoFileParser {
         getProductPriceDiscountFromSide(productSide);
         getProductUnitsAvailableFromSide(productSide);
 
-        Elements attributesCard = document.select("div[class=product-specification-module]");
+        Elements attributesCard = document.select("div[class=specification-table]");
         getProductAttributesFromAttributesCard(attributesCard);
 
 
-        infoItem.setProcessingDate(new Date());
+        infoItem.setProcessingDate(LocalDateTime.now());
         return infoItem;
     }
 
@@ -78,7 +79,40 @@ public class InfoFileParser {
     }
 
     private void getProductAttributesFromAttributesCard(Elements card) {
+        Element table = card.select("div[class=specification-table]").first();
+        Elements children = table.children();
+        Map<String, Map<String, String>> tempMap = new LinkedHashMap<>();
+        String tempMainAttribute = "";
+        for(Element x: children) {
+            if(x.tagName().equalsIgnoreCase("h5")){
+                tempMap.put(x.text(), new LinkedHashMap<>());
+                tempMainAttribute = x.text();
+            } else {
+                Elements names = x.children()
+                        .select("div[class=table-info-item]")
+                        .stream()
+                        .filter(c -> !c.text().isEmpty())
+                        .collect(Collectors.toCollection(Elements::new));
+                tempMap.put(tempMainAttribute, extractSpecificationFromInfoItem(names));
+            }
+        }
 
+        infoItem.setAttributes(tempMap);
+    }
 
+    private Map<String, String> extractSpecificationFromInfoItem(Elements inf) {
+        Map<String,String> tempMap = new LinkedHashMap<>();
+
+        for(Element x: inf) {
+            StringBuilder stringBuilder = new StringBuilder();
+            x.select("div[class=info-item]")
+                    .forEach(c -> {
+                        if(stringBuilder.length() != 0) stringBuilder.append(", ");
+                        stringBuilder.append(c.text());
+                    });
+            tempMap.put(x.getElementsByAttributeValueContaining("class", "table-info-inner name").first().text(), stringBuilder.toString());
+        }
+
+        return tempMap;
     }
 }

@@ -3,18 +3,16 @@ package com.stahocorp.etlprocess.files;
 import com.stahocorp.etlprocess.enums.FileType;
 import com.stahocorp.etlprocess.items.FileItem;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class FilenameParser {
 
-    public static FileItem parseFilename(String fileName) throws RuntimeException{
+    public static FileItem parseFilename(String fileName) throws RuntimeException {
         List<String> fileNameFragments = Arrays.asList(fileName.split("-"));
-        if(fileNameFragments.size() != 4) {
+        if (fileNameFragments.size() != 4) {
             throw new RuntimeException("FileName is wrong.\nShould be page-itemId-sourceDate-fileType.html");
         }
 
@@ -37,16 +35,9 @@ public class FilenameParser {
         return FileType.getTypeForString(fileTypeTmp);
     }
 
-    private static Date getDateFromString(String dateAsString){
-        Date tempFileDate = new Date();
-        try {
-            SimpleDateFormat fromFile = new SimpleDateFormat("yyyyMMdd");
-            tempFileDate = fromFile.parse(dateAsString);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return tempFileDate;
+    private static LocalDateTime getDateFromString(String dateAsString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        return LocalDateTime.parse(dateAsString, formatter);
     }
 
 
